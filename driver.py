@@ -49,9 +49,11 @@ html = """\
 
     """.format(**locals())
 
-# message.attach(MIMEText(html, "html"))
+message.attach(MIMEText(html, "html"))
+
+with smtplib.SMTP_SSL(smtp_server, port=port, context=context) as server:
+    server.login(email, password)
+    for recipient in recipients:
+        server.sendmail(email, recipient, message.as_string())
+
 print("Email successfully sent to:", recipients)
-# with smtplib.SMTP_SSL(smtp_server, port=port, context=context) as server:
-#     server.login(email, password)
-#     for recipient in recipients:
-#         server.sendmail(email, recipient, message.as_string())
